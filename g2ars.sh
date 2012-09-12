@@ -6,6 +6,7 @@
 	rsync -a /Library/Logs/DiagnosticReports/* ~/Desktop/GoToAssist_Remote_Support_Logs/CrashReporterSystem/; \
 # Copy the system log to the temporary folder.
 	rsync -a /Private/Var/Log/system.log* ~/Desktop/GoToAssist_Remote_Support_Logs/SystemLog; \
+	rsync -a /private/var/log/install.log ~/Desktop/GoToMyPC_Host_Logs/SystemLog; \
 # Copy Endpoint Logs to the temporary folder.
 	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/customer ]; then rsync -a ~/Library/Logs/com.citrixonline.g2a.rs/customer ~/Desktop/GoToAssist_Remote_Support_Logs/Customer_Endpoint_Logs; fi
 	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/Expert ]; then rsync -a ~/Library/Logs/com.citrixonline.g2a.rs/Expert ~/Desktop/GoToAssist_Remote_Support_Logs/Expert_Endpoint_Logs; fi
