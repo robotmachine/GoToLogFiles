@@ -1,4 +1,4 @@
 GoToLogFiles_Mac
 ================
 
-This is a thing that does a thing and you don't care.
+https://dl.dropbox.com/u/147144/GoToMacLogFiles-rsync.app.zip
