@@ -11,7 +11,14 @@
 	rsync -a ~/Library/Logs/com.citrixonline.g2a.customer/* ~/Desktop/GoToAssist_Corporate_Logs/Endpoint_Logs_Customer; \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToAssist_Corporate_Logs/Processes.txt; \
-	system_profiler > ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+
 # Create a Gzipped Tar of all of the folders on the desktop.
 	tar -czf ~/Desktop/GoToAssist_Corporate_Logs.tgz -C ~/Desktop/ GoToAssist_Corporate_Logs ; \
 # Remove temporary folder.

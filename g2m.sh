@@ -11,7 +11,14 @@
 	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ]; then rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* ~/Desktop/GoToMeeting_Logs/Recording_Manager; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ]; then rsync -a ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* ~/Desktop/GoToMeeting_Logs/Recording_Manager;  fi \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToMeeting_Logs/Processes.txt; \
-	system_profiler > ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+
 # Create a Gzipped Tar of all of the folders on the desktop.
 	tar -czf ~/Desktop/GoToMeeting_Logs.tgz -C ~/Desktop/ GoToMeeting_Logs ; \
 # Remove temporary folder.
