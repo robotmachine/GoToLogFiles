@@ -1,1 +1,2 @@
-GoToMacLogFiles-rsync.app
+*.app
+*.app.zip
