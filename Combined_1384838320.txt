@@ -1,5 +1,3 @@
-#!/bin/bash
-
 if [  = GoToMyPC_Host ]; then
 
 #!/bin/bash

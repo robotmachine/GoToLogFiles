@@ -4,8 +4,6 @@
 
 # Using Unix epoch for temp filename.
 VOLTRON=Combined_$(date +%s).txt
-echo "#!/bin/bash" > $VOLTRON
-echo "" >> $VOLTRON
 echo "if [ $@ = "GoToMyPC_Host" ]; then" >> $VOLTRON
 echo "" >> $VOLTRON
 cat g2phost.sh >> $VOLTRON
