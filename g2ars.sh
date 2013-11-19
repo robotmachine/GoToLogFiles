@@ -1,29 +1,47 @@
 #!/bin/bash
+# This script makes a compressed archive of the current user's desktop of log files, system diagnostics, and other Citrix Online related items.
+# Written by Brian Carter & Kyle Halversen
+
+# Set a variable for the temporary directory.
+TEMPDIR=~/Desktop/GoToAssist_Remote_Support_Logs
+
+# Trap to remove the temporary directory
+cleanup() {
+	rm -rf $TEMPDIR
+}
+trap "cleanup" EXIT
+
 # Create a temporary folder if it does not already exist.
-	if [ ! -d "~/Desktop/GoToAssist_Remote_Support_Logs" ]; then mkdir ~/Desktop/GoToAssist_Remote_Support_Logs; fi;\
+	if [ ! -d "$TEMPDIR" ]; then mkdir $TEMPDIR; fi
+
 # Copy CrashReporter files to a temporary folder.
-	rsync -a --exclude="MobileDevice" ~/Library/Logs/CrashReporter/* ~/Desktop/GoToAssist_Remote_Support_Logs/CrashReporterUser/; \
-	rsync -a /Library/Logs/DiagnosticReports/* ~/Desktop/GoToAssist_Remote_Support_Logs/CrashReporterSystem/; \
+	rsync -a --exclude="MobileDevice" ~/Library/Logs/CrashReporter/* $TEMPDIR/CrashReporterUser/
+	rsync -a /Library/Logs/DiagnosticReports/* $TEMPDIR/CrashReporterSystem/
+
 # Copy the system log to the temporary folder.
-	rsync -a /Private/Var/Log/system.log* ~/Desktop/GoToAssist_Remote_Support_Logs/SystemLog; \
-	rsync -a /private/var/log/install.log ~/Desktop/GoToAssist_Remote_Support_Logs/SystemLog; \
+	rsync -a /Private/Var/Log/system.log* $TEMPDIR/SystemLog/
+	rsync -a /private/var/log/install.log $TEMPDIR/SystemLog/
+
 # Copy Endpoint Logs to the temporary folder.
-	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/customer ]; then rsync -a ~/Library/Logs/com.citrixonline.g2a.rs/customer ~/Desktop/GoToAssist_Remote_Support_Logs/Customer_Endpoint_Logs; fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/Expert ]; then rsync -a ~/Library/Logs/com.citrixonline.g2a.rs/Expert ~/Desktop/GoToAssist_Remote_Support_Logs/Expert_Endpoint_Logs; fi
-	if [ -d /Library/Logs/com.citrixonline.g2a.rs ]; then rsync -a /Library/Logs/com.citrixonline.g2a.rs ~/Desktop/GoToAssist_Remote_Support_Logs/Unattended_Endpoint_Logs; fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2ax ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax ~/Desktop/GoToAssist_Remote_Support_Logs/Pre_Build_403_Logs; fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2ax.customer ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax.customer ~/Desktop/GoToAssist_Remote_Support_Logs/Pre_Build_403_Logs; fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2ax.expert ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax.expert ~/Desktop/GoToAssist_Remote_Support_Logs/Pre_Build_403_Logs; fi
+	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/customer ]; then rsync -a ~/Library/Logs/com.citrixonline.g2a.rs/customer $TEMPDIR/Customer_Endpoint_Logs/; fi
+	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/Expert ]; then rsync -a ~/Library/Logs/com.citrixonline.g2a.rs/Expert $TEMPDIR/Expert_Endpoint_Logs/; fi
+	if [ -d /Library/Logs/com.citrixonline.g2a.rs ]; then rsync -a /Library/Logs/com.citrixonline.g2a.rs $TEMPDIR/Unattended_Endpoint_Logs/; fi
+	if [ -d ~/Library/Logs/com.citrixonline.g2ax ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax $TEMPDIR/Pre_Build_403_Logs/; fi
+	if [ -d ~/Library/Logs/com.citrixonline.g2ax.customer ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax.customer $TEMPDIR/Pre_Build_403_Logs/; fi
+	if [ -d ~/Library/Logs/com.citrixonline.g2ax.expert ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax.expert $TEMPDIR/Pre_Build_403_Logs/; fi
+
+# Copy launcher logs
+	rsync -a ~/Library/Logs/com.citrixonline.WebDeployment/* $TEMPDIR/Launcher_Logs/
+
 # Get a list of running applications and installed applications.
-	ps aux > ~/Desktop/GoToAssist_Remote_Support_Logs/Processes.txt; \
-	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-# Create a Gzipped Tar of all of the folders on the desktop.
-	tar -czf ~/Desktop/GoToAssist_Remote_Support_Logs.tgz -C ~/Desktop/ GoToAssist_Remote_Support_Logs ; \
-# Remove temporary folder.
-	rm -rf ~/Desktop/GoToAssist_Remote_Support_Logs
+	ps aux > $TEMPDIR/Processes.txt
+	system_profiler SPApplicationsDataType >> $TEMPDIR/System_Profiler.txt
+	system_profiler SPSoftwareDataType >> $TEMPDIR/System_Profiler.txt
+	system_profiler SPHardwareDataType >> $TEMPDIR/System_Profiler.txt
+	system_profiler SPDisplaysDataType >> $TEMPDIR/System_Profiler.txt
+	system_profiler SPPowerDataType >> $TEMPDIR/System_Profiler.txt
+	system_profiler SPAudioDataType >> $TEMPDIR/System_Profiler.txt
+	system_profiler SPSerialATADataType >> $TEMPDIR/System_Profiler.txt
+
+# Create a compressed archive of everything grabbed.
+	tar -czf $TEMPDIR.tgz -C $TEMPDIR .
