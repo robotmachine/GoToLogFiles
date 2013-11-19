@@ -10,6 +10,8 @@ if [ $@ = "GoToMyPC_Host" ]; then
 	rsync -a /private/var/log/install.log ~/Desktop/GoToMyPC_Host_Logs/SystemLog; \
 # Copy Endpoint Logs to the temporary folder.
 	rsync -a /Library/Logs/com.citrixonline.GoToMyPC/* ~/Desktop/GoToMyPC_Host_Logs/Endpoint_Logs; \
+# Copy launcher logs
+        rsync -a ~/Library/Logs/com.citrixonline.WebDepoloyment/* ~/Desktop/GoToMyPC_Host_Logs/Launcher_Logs; \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToMyPC_Host_Logs/Processes.txt; \
 	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
@@ -36,18 +38,20 @@ elif [ $@ = "GoToMyPC_Client" ]; then
 	rsync -a /Private/Var/Log/system.log* ~/Desktop/GoToMyPC_Client_Logs/SystemLog; \
 # Copy Endpoint Logs to the temporary folder.
 	rsync -a ~/Library/Logs/com.citrixonline.GoToMyPC/* ~/Desktop/GoToMyPC_Client_Logs/Endpoint_Logs; \
+# Copy launcher logs
+        rsync -a ~/Library/Logs/com.citrixonline.WebDepoloyment/* ~/Desktop/GoToMyPC_Client_Logs/Launcher_Logs; \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToMyPC_Client_Logs/Processes.txt; \
-	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Client_Logs/System_Profiler.txt; \
 
 # Create a Gzipped Tar of all of the folders on the desktop.
-	tar -czf ~/Desktop/GoToMyPC_Client_Logs.tgz -C ~/Desktop/ GoToMyPC_Client_Logs ; \
+	tar -czf ~/Desktop/GoToMyPC_Client_Logs.tgz -C ~/Desktop/GoToMyPC_Client_Logs ; \
 # Remove temporary folder.
 	rm -rf ~/Desktop/GoToMyPC_Client_Logs
 
@@ -63,15 +67,17 @@ elif [ $@ = "GoToMeeting" ]; then
 # Copy Endpoint and Recording Manager Logs to the temporary folder.
 	rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting/* ~/Desktop/GoToMeeting_Logs/Endpoint_Logs; \
 	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ]; then rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* ~/Desktop/GoToMeeting_Logs/Recording_Manager; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ]; then rsync -a ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* ~/Desktop/GoToMeeting_Logs/Recording_Manager;  fi \
+# Copy launcher logs
+        rsync -a ~/Library/Logs/com.citrixonline.WebDepoloyment/* ~/Desktop/GoToMeeting_Logs/Launcher_Logs; \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToMeeting_Logs/Processes.txt; \
-	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToMeeting_Logs/System_Profiler.txt; \
 
 # Create a Gzipped Tar of all of the folders on the desktop.
 	tar -czf ~/Desktop/GoToMeeting_Logs.tgz -C ~/Desktop/ GoToMeeting_Logs ; \
@@ -81,33 +87,35 @@ elif [ $@ = "GoToMeeting" ]; then
 elif [ $@ = "GoToMeeting_Recording_Logs" ]; then
 
 # Create a temporary folder if it does not already exist.
-	if [ ! -d "~/Desktop/GoToMeeting_Logs" ]; then mkdir ~/Desktop/GoToMeeting_Logs; fi;\
+	if [ ! -d "~/Desktop/GoToMeeting_Recording_Logs" ]; then mkdir ~/Desktop/GoToMeeting_Recording_Logs; fi;\
 # Copy CrashReporter files to a temporary folder.
-	rsync -a --exclude="MobileDevice" ~/Library/Logs/CrashReporter/* ~/Desktop/GoToMeeting_Logs/CrashReporterUser/; \
-	rsync -a /Library/Logs/DiagnosticReports/* ~/Desktop/GoToMeeting_Logs/CrashReporterSystem/; \
+	rsync -a --exclude="MobileDevice" ~/Library/Logs/CrashReporter/* ~/Desktop/GoToMeeting_Recording_Logs/CrashReporterUser/; \
+	rsync -a /Library/Logs/DiagnosticReports/* ~/Desktop/GoToMeeting_Recording_Logs/CrashReporterSystem/; \
 # Copy the system log to the temporary folder.
-	rsync -a /Private/Var/Log/system.log* ~/Desktop/GoToMeeting_Logs/SystemLog; \
+	rsync -a /Private/Var/Log/system.log* ~/Desktop/GoToMeeting_Recording_Logs/SystemLog; \
 # Copy Endpoint and Recording Manager Logs to the temporary folder.
-	rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting/* ~/Desktop/GoToMeeting_Logs/Endpoint_Logs; \
-	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ]; then rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* ~/Desktop/GoToMeeting_Logs/Recording_Manager; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ]; then rsync -a ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* ~/Desktop/GoToMeeting_Logs/Recording_Manager;  fi \
+	rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting/* ~/Desktop/GoToMeeting_Recording_Logs/Endpoint_Logs; \
+	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ]; then rsync -a ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* ~/Desktop/GoToMeeting_Recording_Logs/Recording_Manager; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ]; then rsync -a ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* ~/Desktop/GoToMeeting_Recording_Logs/Recording_Manager;  fi \
 # Copy unconverted video and audio files.
-	if [ -f ~/Documents/Recordings/*.temp_audio ]; then rsync -a ~/Documents/Recordings/*.temp_{audio,video} ~/Desktop/GoToMeeting_Logs/Unconverted_Temp_Files; fi \
+	if [ -f ~/Documents/Recordings/*.temp_audio ]; then rsync -a ~/Documents/Recordings/*.temp_{audio,video} ~/Desktop/GoToMeeting_Recording_Logs/Unconverted_Temp_Files; fi \
 # Looks in the settings plist for any other directories for the temp files to be in and copies those, too.
-THE_PATH=$(defaults -currentHost read com.citrixonline.GoToMeeting | grep RecordingPath | sed 's/    RecordingPath = //g' | sed 's/\;//g' | sed 's/\"//g') ; if [ -f "$THE_PATH"/*.temp_audio ]; then rsync -a $THE_PATH/*.temp_{audio,video} ~/Desktop/GoToMeeting_Logs/Unconverted_Temp_Files_Alternate; fi
+THE_PATH=$(defaults -currentHost read com.citrixonline.GoToMeeting | grep RecordingPath | sed 's/    RecordingPath = //g' | sed 's/\;//g' | sed 's/\"//g') ; if [ -f "$THE_PATH"/*.temp_audio ]; then rsync -a $THE_PATH/*.temp_{audio,video} ~/Desktop/GoToMeeting_Recording_Logs/Unconverted_Temp_Files_Alternate; fi
+# Copy launcher logs
+        rsync -a ~/Library/Logs/com.citrixonline.WebDepoloyment/* ~/Desktop/GoToMeeting_Recording_Logs/Launcher_Logs; \
 # Get a list of running applications and installed applications.
-	ps aux > ~/Desktop/GoToMeeting_Logs/Processes.txt; \
-	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	ps aux > ~/Desktop/GoToMeeting_Recording_Logs/Processes.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToMeeting_Recording_Logs/System_Profiler.txt; \
 
 # Create a Gzipped Tar of all of the folders on the desktop.
-	tar -czf ~/Desktop/GoToMeeting_Logs.tgz -C ~/Desktop/ GoToMeeting_Logs ; \
+	tar -czf ~/Desktop/GoToMeeting_Recording_Logs.tgz -C ~/Desktop/GoToMeeting_Recording_Logs ; \
 # Remove temporary folder.
-	rm -rf ~/Desktop/GoToMeeting_Logs
+	rm -rf ~/Desktop/GoToMeeting_Recording_Logs
 
 elif [ $@ = "GoToAssist_Corporate" ]; then
 
@@ -121,15 +129,17 @@ elif [ $@ = "GoToAssist_Corporate" ]; then
 # Copy Endpoint Logs to the temporary folder.
 	rsync -a ~/Library/Logs/com.citrixonline.g2ac*/* ~/Desktop/GoToAssist_Corporate_Logs/Endpoint_Logs; \
 	rsync -a ~/Library/Logs/com.citrixonline.g2a.customer/* ~/Desktop/GoToAssist_Corporate_Logs/Endpoint_Logs_Customer; \
+# Copy launcher logs
+        rsync -a ~/Library/Logs/com.citrixonline.WebDepoloyment/* ~/Desktop/GoToAssist_Corporate_Logs/Launcher_Logs; \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToAssist_Corporate_Logs/Processes.txt; \
-	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToAssist_Corporate_Logs/System_Profiler.txt; \
 
 # Create a Gzipped Tar of all of the folders on the desktop.
 	tar -czf ~/Desktop/GoToAssist_Corporate_Logs.tgz -C ~/Desktop/ GoToAssist_Corporate_Logs ; \
@@ -153,15 +163,17 @@ elif [ $@ = "GoToAssist_Remote_Support" ]; then
 	if [ -d ~/Library/Logs/com.citrixonline.g2ax ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax ~/Desktop/GoToAssist_Remote_Support_Logs/Pre_Build_403_Logs; fi
 	if [ -d ~/Library/Logs/com.citrixonline.g2ax.customer ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax.customer ~/Desktop/GoToAssist_Remote_Support_Logs/Pre_Build_403_Logs; fi
 	if [ -d ~/Library/Logs/com.citrixonline.g2ax.expert ]; then rsync -a ~/Library/Logs/com.citrixonline.g2ax.expert ~/Desktop/GoToAssist_Remote_Support_Logs/Pre_Build_403_Logs; fi
+# Copy launcher logs
+        rsync -a ~/Library/Logs/com.citrixonline.WebDepoloyment/* ~/Desktop/GoToAssist_Remote_Support_Logs/Launcher_Logs; \
 # Get a list of running applications and installed applications.
 	ps aux > ~/Desktop/GoToAssist_Remote_Support_Logs/Processes.txt; \
-	system_profiler SPApplicationsDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSoftwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPHardwareDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPDisplaysDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPPowerDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPAudioDataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
-	system_profiler SPSerialATADataType >> ~/Desktop/GoToMyPC_Host_Logs/System_Profiler.txt; \
+	system_profiler SPApplicationsDataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
+	system_profiler SPSoftwareDataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
+	system_profiler SPHardwareDataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
+	system_profiler SPDisplaysDataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
+	system_profiler SPPowerDataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
+	system_profiler SPAudioDataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
+	system_profiler SPSerialATADataType >> ~/Desktop/GoToAssist_Remote_Support_Logs/System_Profiler.txt; \
 
 # Create a Gzipped Tar of all of the folders on the desktop.
 	tar -czf ~/Desktop/GoToAssist_Remote_Support_Logs.tgz -C ~/Desktop/ GoToAssist_Remote_Support_Logs ; \
