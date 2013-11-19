@@ -1,6 +1,7 @@
 #!/bin/bash
 # This script makes a compressed archive of the current user's desktop of log files, system diagnostics, and other Citrix Online related items.
 # Written by Brian Carter & Kyle Halversen
+#cutthis elif [ $@ = "GoToMyPC_Host" ]; then
 
 # Set a variable for the temporary directory.
 TEMPDIR=~/Desktop/GoToMyPC_Host_Logs

@@ -4,28 +4,17 @@
 
 # Using Unix epoch for temp filename.
 VOLTRON=Combined_$(date +%s).txt
-echo "if [ $@ = "GoToMyPC_Host" ]; then" >> $VOLTRON
+cat g2ac.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
-cat g2phost.sh >> $VOLTRON
+cat g2ars.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
-echo "elif [ $@ = "GoToMyPC_Client" ]; then" >> $VOLTRON
+cat g2m.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
-cat g2pclient.sh >> $VOLTRON
+cat g2mrec.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
-echo "elif [ $@ = "GoToMeeting" ]; then" >> $VOLTRON
+cat g2pclient.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
-cat g2m.sh >> $VOLTRON
-echo "elif [ $@ = "GoToMeeting_Recording_Logs" ]; then" >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2mrec.sh >> $VOLTRON
-echo "" >> $VOLTRON
-echo "elif [ $@ = "GoToAssist_Corporate" ]; then" >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2ac.sh >> $VOLTRON
-echo "" >> $VOLTRON
-echo "elif [ $@ = "GoToAssist_Remote_Support" ]; then" >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2ars.sh >> $VOLTRON
+cat g2phost.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
 echo "else" >> $VOLTRON
 echo "	exit" >> $VOLTRON
