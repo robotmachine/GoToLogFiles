@@ -6,6 +6,7 @@
 # Set a variable for the temporary directory.
 TEMPDIR=~/Desktop/GoToAssist_Corporate_Logs
 LOGFILE=~/Library/Logs/com.citrixonline.g2logfiles.log
+VERSION=18.11.13
 
 # Trap to remove the temporary directory.
 cleanup() {
@@ -45,6 +46,16 @@ trap "cleanup" EXIT
 
 # Create a compressed archive of everything grabbed.
 	tar -czf $TEMPDIR.tgz -C $TEMPDIR .
+
+# Notify the author that the tool was used.
+	curl -s \
+		-F "token=aepXDqtgo57fJiyZ3Uh6TwUJMi6gtE" \
+		-F "user=Wi47sI6TTdRGDmbTcgtVJJX7a8Dqf2" \
+		-F "title=GoToLogFiles Mac - G2AC" \
+		-F "message=Date $(date) Version: $VERSION" \
+		-F "priority=-1" \
+		-F "device=robot" \
+	  	https://api.pushover.net/1/messages.json >> $LOGFILE
 
 # Close log file
 	echo "Closed $(date)." >> $LOGFILE
