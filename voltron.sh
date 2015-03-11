@@ -10,8 +10,6 @@ cat g2ars.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
 cat g2m.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
-cat g2mrec.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
-echo "" >> $VOLTRON
 cat g2pclient.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
 echo "" >> $VOLTRON
 cat g2phost.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
