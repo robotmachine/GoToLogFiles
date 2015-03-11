@@ -3,8 +3,13 @@
 # Written by Brian Carter & Kyle Halversen
 #cutthis elif [ $@ = "GoToAssist_Remote_Support" ]; then
 
-# Set a variable for the temporary directory.
-TEMPDIR=~/Desktop/GoToAssist_Remote_Support_Logs
+# Change the path or name of the files here:
+FILEPATH=~/Desktop
+DIRNAME=Citrix_Logs_G2ARS_$(date +%s)
+#
+# Don't change this:
+TEMPDIR=$FILEPATH/.$DIRNAME
+ENDFILE=$FILEPATH/$DIRNAME.tgz
 LOGFILE=~/Library/Logs/com.citrixonline.g2logfiles.log
 
 # Trap to remove the temporary directory
@@ -49,7 +54,7 @@ trap "cleanup" EXIT
 	system_profiler SPSerialATADataType >> $TEMPDIR/System_Profiler.txt
 
 # Create a compressed archive of everything grabbed.
-	tar -czf $TEMPDIR.tgz -C $TEMPDIR .
+	tar -czf $ENDFILE -C $TEMPDIR .
 
 # Close log file
 	echo "Closed $(date)." >> $LOGFILE
