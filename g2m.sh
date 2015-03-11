@@ -37,6 +37,11 @@ trap "cleanup" EXIT
 # Copy launcher logs
 	rsync -aP ~/Library/Logs/com.citrixonline.WebDeployment/* $TEMPDIR/Launcher_Logs/ >> $LOGFILE
 
+# Sample GoToMeeting and GoToMeeting Recording Manager if they are running.
+	mkdir $TEMPDIR/Sample
+	sample GoToMeeting > $TEMPDIR/Sample/GoToMeeting_Sample.txt 2>&1
+	sample "GoToMeeting Recording Manager" > $TEMPDIR/Sample/GoToMeetingRecMgr_Sample.txt 2>&1
+
 # Get a list of running applications and installed applications.
 	ps aux > $TEMPDIR/Processes.txt
 	system_profiler SPApplicationsDataType >> $TEMPDIR/System_Profiler.txt
