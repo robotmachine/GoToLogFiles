@@ -1,6 +1,7 @@
 #GoToLogFiles_Mac
 ## Version 0.5
 Unofficial log file collector for Citrix GoTo Products.
+Test
 
 ##CHANGELOG
 ###11 March, 2015:
