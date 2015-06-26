@@ -4,7 +4,7 @@
 source start.sh
 #cutthis if [ $@ = "GoToAssist_Corporate" ]; then
 
-# Copy Endpoint Logs to the temporary folder.
+# Collect GoToAssist Corporate logs
 	logcomment "GoToAssist Corporate: Logs"
 	rsync -av ~/Library/Logs/com.citrixonline.g2ac* $TEMPDIR/Endpoint_Logs/ >> $LOGFILE 2>&1
 	rsync -av ~/Library/Logs/com.citrixonline.g2a.customer $TEMPDIR/Endpoint_Logs_Customer/ >> $LOGFILE 2>&1
