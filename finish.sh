@@ -1,9 +1,11 @@
 #!/bin/bash
+#
+#
 # Close log file
-	echo "GoToLogFiles log finished $(date)" >> $LOGFILE
+	logcomment "GoToLogFiles log finished $(date)"
 
 # Collect log file
-	rsync -aP $LOGFILE $TEMPDIR/GoToLogFiles.log
+	rsync -a $LOGFILE $TEMPDIR/GoToLogFiles.log
 
 # Create a compressed archive of all collected data.
 	tar -czf $ENDFILE -C $TEMPDIR .
