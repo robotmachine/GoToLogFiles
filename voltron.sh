@@ -15,5 +15,5 @@ processor g2ars.sh
 processor g2m.sh
 processor g2phost.sh
 processor g2pclient.sh
+echo -e "\nelse\n  logcomment 'No product selected'\nfi\n" >> $VOLTRON
 processor finish.sh
-echo -e "\nelse\n  exit\nfi" >> $VOLTRON
