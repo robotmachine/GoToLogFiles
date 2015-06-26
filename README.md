@@ -2,7 +2,7 @@
 ## Version 0.8
 Unofficial OSX log file collector for Citrix SaaS Products
 
-Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-sb6ea7536d194924b)  
+Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-s81da463bb284a989)  
 
 ##CHANGELOG
 ###26 June, 2015 (v 0.8):  
