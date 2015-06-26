@@ -5,12 +5,13 @@ source start.sh
 #cutthis elif [ $@ = "GoToMeeting" ]; then
 
 # Collect GoToMeeting and GoToMeeting Recording Manager logs
-	rsync -aP ~/Library/Logs/com.citrixonline.GoToMeeting/* $TEMPDIR/Endpoint_Logs >> $LOGFILE
-	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ]; then rsync -aP ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* $TEMPDIR/Recording_Manager; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ]; then rsync -aP ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* $TEMPDIR/Recording_Manager; fi >> $LOGFILE
+	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting)" ] ; then logcomment "GoToMeeting: Log Files" ; rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting/* $TEMPDIR/Endpoint_Logs >> $LOGFILE 2>&1 ; else logcomment "GoToMeeting: Log Files .:. No Logs Found" ; fi
+	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager)" ]; then logcomment "GoToMeeting: Recording Manager Log Files"rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* $TEMPDIR/Recording_Manager >> $LOGFILE 2>&1 ; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager)" ] ; then logcomment "GoToMeeting: Recording Manager Log Files" ; rsync -av ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* $TEMPDIR/Recording_Manager  >> $LOGFILE 2>&1 ; else logcomment "GoToMeeting: Recording Manager Log Files .:. No Logs Found" ;  fi
 
 # Sample GoToMeeting processes if they are running
 	mkdir $TEMPDIR/Sample
-	sample GoToMeeting > $TEMPDIR/Sample/GoToMeeting_Sample.txt 2>&1
-	sample "GoToMeeting Recording Manager" > $TEMPDIR/Sample/GoToMeetingRecMgr_Sample.txt 2>&1
+	logcomment "GoToMeeting: Sample Process .:. Only Errors Logged"
+	sample GoToMeeting > $TEMPDIR/Sample/GoToMeeting_Sample.txt 2>>$LOGFILE
+	sample "GoToMeeting Recording Manager" > $TEMPDIR/Sample/GoToMeetingRecMgr_Sample.txt 2>>$LOGFILE
 
 source finish.sh
