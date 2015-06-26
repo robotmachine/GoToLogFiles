@@ -5,6 +5,6 @@ source start.sh
 #cutthis elif [ $@ = "GoToMyPC_Client" ]; then
 
 # Collect GoToMyPC Client logs
-	if [ -d ~/Library/Logs/com.citrixonline.GoToMyPC ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMyPC)" ] ; logcomment "GoToMyPC: Client Logs" ; rsync -av ~/Library/Logs/com.citrixonline.GoToMyPC/* $TEMPDIR/Endpoint_Logs/ >> $LOGFILE 2>&1 ; else logcomment "GoToMyPC: Client Logs .:. No Logs Found" ; fi
+	if [ -d ~/Library/Logs/com.citrixonline.GoToMyPC ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMyPC)" ] ; then logcomment "GoToMyPC: Client Logs" ; rsync -av ~/Library/Logs/com.citrixonline.GoToMyPC/* $TEMPDIR/Endpoint_Logs/ >> $LOGFILE 2>&1 ; else logcomment "GoToMyPC: Client Logs .:. No Logs Found" ; fi
 
 source finish.sh
