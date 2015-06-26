@@ -4,16 +4,16 @@
 
 # Using Unix epoch for temp filename.
 VOLTRON=Combined_$(date +%s).txt
-cat g2ac.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2ars.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2m.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2pclient.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
-echo "" >> $VOLTRON
-cat g2phost.sh | sed '1,3d' | sed 's/#cutthis //' >> $VOLTRON
-echo "" >> $VOLTRON
-echo "else" >> $VOLTRON
-echo "	exit" >> $VOLTRON
-echo "fi" >> $VOLTRON
+#
+processor () {
+	cat "$@" | sed '1,3d' | awk '!/source/' | sed 's/#cutthis //' >> $VOLTRON
+	echo "" >> $VOLTRON
+}
+processor start.sh
+processor g2ac.sh
+processor g2ars.sh
+processor g2m.sh
+processor g2phost.sh
+processor g2pclient.sh
+echo -e "else\n  logcomment 'No product selected'\nfi\n" >> $VOLTRON
+processor finish.sh
