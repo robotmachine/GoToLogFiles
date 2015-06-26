@@ -49,7 +49,9 @@ logcomment() {
 	DIAGNOSTIC=$TEMPDIR/Diagnostic
 	mkdir $DIAGNOSTIC
 	ps > $DIAGNOSTIC/Running_Processes.txt 2>> $LOGFILE
+	echo "Disk Utility list:\n" >> $DIAGNOSTIC/Disk_Info.txt 2>> $LOGFILE
 	diskutil list >> $DIAGNOSTIC/Disk_Info.txt 2>> $LOGFILE
+	echo "\ndf Output:\n" >> $DIAGNOSTIC/Disk_Info.txt 2>> $LOGFILE
 	df -H >> $DIAGNOSTIC/Disk_Info.txt 2>> $LOGFILE
 	system_profiler SPApplicationsDataType >> $DIAGNOSTIC/System_Profiler.txt 2>> $LOGFILE
 	system_profiler SPSoftwareDataType >> $DIAGNOSTIC/System_Profiler.txt 2>> $LOGFILE
