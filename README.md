@@ -1,10 +1,13 @@
 #GoToLogFiles_Mac
-## Version 0.8
+## Version 0.9
 Unofficial OSX log file collector for Citrix SaaS Products
 
 Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-s81da463bb284a989)  
 
 ##CHANGELOG
+### 13 July, 2015 (v 0.9):  
+* Printing plist files to text files  
+  
 ###26 June, 2015 (v 0.8):  
 * Cut down on redundant scripting
 * Created a start.sh and finish.sh for all logging that is common to all products
