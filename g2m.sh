@@ -8,6 +8,9 @@ source start.sh
 	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting)" ] ; then logcomment "GoToMeeting: Log Files" ; rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting/* $TEMPDIR/Endpoint_Logs >> $LOGFILE 2>&1 ; else logcomment "GoToMeeting: Log Files .:. No Logs Found" ; fi
 	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager)" ]; then logcomment "GoToMeeting: Recording Manager Log Files"rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* $TEMPDIR/Recording_Manager >> $LOGFILE 2>&1 ; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager)" ] ; then logcomment "GoToMeeting: Recording Manager Log Files" ; rsync -av ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* $TEMPDIR/Recording_Manager  >> $LOGFILE 2>&1 ; else logcomment "GoToMeeting: Recording Manager Log Files .:. No Logs Found" ;  fi
 
+# Copy preferences to a text file.
+	mkdir $TEMPDIR/Plist
+	defaults read ~/Library/Preferences/com.citrixonline.GoToMeeting > $TEMPDIR/Plist/GoToMeeting_plist.txt
 # Sample GoToMeeting processes if they are running
 	mkdir $TEMPDIR/Sample
 	logcomment "GoToMeeting: Sample Process .:. Only Errors Logged"
