@@ -40,9 +40,19 @@ logcomment() {
 	logcomment "System Log"
 	rsync -av /Private/Var/Log/system.log* $TEMPDIR/SystemLog >> $LOGFILE 2>&1
 
-# Collect Citrix Launcher log
+# Collect Citrix Launcher log and Plist file
 	logcomment "Citrix Launcher log"
 	rsync -av ~/Library/Logs/com.citrixonline.WebDeployment/* $TEMPDIR/Launcher_Logs/ >> $LOGFILE 2>&1
+	logcomment "Citrix Launcher plist"
+	if ls ~/Library/Preferences/com.citrixonline.mac.WebDeploymentApp* 1> /dev/null 2>&1 ; then
+		if [[ ! -e $TEMPDIR/Plist ]] ; then mkdir $TEMPDIR/Plist ; fi
+		for FILE in ~/Library/Preferences/com.citrixonline.mac.WebDeploymentApp* ; do
+			defaults read $FILE > $TEMPDIR/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
+		done
+	else
+		logcomment "Citrix Launcher Plist .:. No plist files found."
+	fi
+	
 
 # Collect system diagnostic information
 	logcomment "Diagnostic Information (Only errors are logged)"

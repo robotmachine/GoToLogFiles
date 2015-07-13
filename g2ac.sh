@@ -11,7 +11,7 @@ source start.sh
 
 # Copy preferences to a text file
 	if ls ~/Library/Preferences/com.citrixonline.g2ac* 1> /dev/null 2>&1 ; then
-		mkdir $TEMPDIR/Plist
+		if [[ ! -e $TEMPDIR/Plist ]] ; then mkdir $TEMPDIR/Plist ; fi
 		for FILE in ~/Library/Preferences/com.citrixonline.g2ac* ; do
 			defaults read $FILE > $TEMPDIR/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
 		done

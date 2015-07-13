@@ -9,8 +9,15 @@ source start.sh
 	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager)" ]; then logcomment "GoToMeeting: Recording Manager Log Files"rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* $TEMPDIR/Recording_Manager >> $LOGFILE 2>&1 ; elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager)" ] ; then logcomment "GoToMeeting: Recording Manager Log Files" ; rsync -av ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* $TEMPDIR/Recording_Manager  >> $LOGFILE 2>&1 ; else logcomment "GoToMeeting: Recording Manager Log Files .:. No Logs Found" ;  fi
 
 # Copy preferences to a text file.
-	mkdir $TEMPDIR/Plist
-	defaults read ~/Library/Preferences/com.citrixonline.GoToMeeting > $TEMPDIR/Plist/GoToMeeting_plist.txt
+	if ls ~/Library/Preferences/com.citrixonline.GoToMeeting* 1> /dev/null 2>&1 ; then
+		if [[ ! -e $TEMPDIR/Plist ]] ; then mkdir $TEMPDIR/Plist ; fi
+		for FILE in ~/Library/Preferences/com.citrixonline.GoToMeeting* ; do
+			defaults read $FILE > $TEMPDIR/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
+		done
+	else
+		logcomment "GoToMeeting Plist .:. No plist files found."
+	fi
+
 # Sample GoToMeeting processes if they are running
 	mkdir $TEMPDIR/Sample
 	logcomment "GoToMeeting: Sample Process .:. Only Errors Logged"
