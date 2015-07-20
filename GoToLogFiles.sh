@@ -49,7 +49,7 @@
 FilePath=~/Desktop
 ##
 # Sets variables for the script.
-TempName=Citrix_Logs_G2M_$(date +%s)
+TempName=GoToLogFiles_$(date +%s)
 TempDir=$FilePath/.$TempName
 ArchiveName=$FilePath/$TempName.tgz
 LogFile=~/Library/Logs/com.citrixonline.g2logfiles.log
@@ -268,7 +268,7 @@ elif [[ "$UserSelect" == "GoToMeeting" ]]; then
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@        /@@  @@     /@@       //@@@@@@ 
 #   ////////   //////      //      //////  //         //  //      //         //////  
 #
-elif [ "$UserSelect" = "GoToMyPC_Client" ]; then
+elif [ "$UserSelect" = "GoToMyPC" ]; then
 	# Collect GoToMyPC Host Log Files
 	if [ -d /Library/Logs/com.citrixonline.GoToMyPC ] && [ "$(ls -A /Library/Logs/com.citrixonline.GoToMyPC)" ] ; then
 		logcomment "GoToMyPC: Host Log Files"
