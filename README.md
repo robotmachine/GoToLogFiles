@@ -1,10 +1,20 @@
 #GoToLogFiles_Mac
-## Version 0.9
+## Version 1.1
 Unofficial OSX log file collector for Citrix SaaS Products
+* GoToMeeting/GoToWebinar/GoToTraining
+* GoToMyPC
+* GoToAssist Corporate & Remote Support
 
-Just need to download the tool? [Click Here](https://citrix.sharefile.com/d/s6919f11988943839)  
+Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-s31fb96733bf49538)  
 
 ##CHANGELOG
+### 20 July, 2015 (v 1.1):
+* Drastically cut down scripting-- down to a single file  
+* GoToMyPC host and client merged to one entry  
+* GoToAssist RS and Corp merged to one entry  
+* User prompt now built in to shell script  
+* Desktop folder is popped after log file collection  
+
 ### 13 July, 2015 (v 0.9):  
 * Printing plist files to text files  
   
