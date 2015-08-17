@@ -9,21 +9,21 @@
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@@@@@@@//@@@@@@   @@@@@ /@@      /@@ @@@//@@@@@@ @@@@@@ 
 #   ////////   //////      //      //////  ////////  //////   /////  //       // ///  ////// //////  
 #
-#            @@      @@                        @@                      @@      @@ 
-#           /@@     /@@                       //                      @@@     @@@ 
-#           /@@     /@@  @@@@@  @@@@@@  @@@@@@ @@  @@@@@@  @@@@@@@   //@@    //@@ 
-#           //@@    @@  @@///@@//@@//@ @@//// /@@ @@////@@//@@///@@   /@@     /@@ 
-#            //@@  @@  /@@@@@@@ /@@ / //@@@@@ /@@/@@   /@@ /@@  /@@   /@@     /@@ 
-#             //@@@@   /@@////  /@@    /////@@/@@/@@   /@@ /@@  /@@   /@@  @@ /@@ 
-#              //@@    //@@@@@@/@@@    @@@@@@ /@@//@@@@@@  @@@  /@@   @@@@/@@ @@@@
-#               //      ////// ///    //////  //  //////  ///   //   //// // //// 
-#          
-# GoToLogFiles v.1.1
+#            @@      @@                        @@                       @@      @@@@ 
+#           /@@     /@@                       //                       @@@     @/// @
+#           /@@     /@@  @@@@@  @@@@@@  @@@@@@ @@  @@@@@@  @@@@@@@    //@@    /    /@
+#           //@@    @@  @@///@@//@@//@ @@//// /@@ @@////@@//@@///@@    /@@       @@@ 
+#            //@@  @@  /@@@@@@@ /@@ / //@@@@@ /@@/@@   /@@ /@@  /@@    /@@      @//  
+#             //@@@@   /@@////  /@@    /////@@/@@/@@   /@@ /@@  /@@    /@@  @@ @     
+#              //@@    //@@@@@@/@@@    @@@@@@ /@@//@@@@@@  @@@  /@@    @@@@/@@/@@@@@@
+#               //      ////// ///    //////  //  //////  ///   //    
+# GoToLogFiles v.1.2
 # Description:
 # Collects log files and diagnostic information for Citrix SaaS products:
 # * GoToMeeting/GoToWebinar/GoToTraining
 # * GoToMyPC
 # * GoToAssist Corporate/Remote Support
+# * ShareConnect
 #
 # Homepage:
 # https://github.com/robotmachine/GoToLogFiles_Automator
@@ -66,7 +66,7 @@ logcomment() {
 # Prompt user to select a product.
 UserSelect=$(osascript <<'END'
 on run {}
-	set ProductList to {"GoToMeeting", "GoToMyPC", "GoToAssist"}
+	set ProductList to {"GoToMeeting", "GoToMyPC", "GoToAssist", "ShareConnect"}
 	set UserSelect to {choose from list ProductList with title "GoToLogFiles" with prompt "Please select a product." default items "GoToMeeting"}
 	return UserSelect
 end run
@@ -258,6 +258,7 @@ elif [[ "$UserSelect" == "GoToMeeting" ]]; then
 	logcomment "GoToMeeting: Sample Process .:. Only Errors Logged"
 	sample GoToMeeting > $TempDir/Sample/GoToMeeting_Sample.txt 2>>$LogFile
 	sample "GoToMeeting Recording Manager" > $TempDir/Sample/GoToMeetingRecMgr_Sample.txt 2>>$LogFile
+
 #
 #    @@@@@@@@           @@@@@@@@@@          @@@@     @@@@          @@@@@@@    @@@@@@ 
 #   @@//////@@         /////@@///          /@@/@@   @@/@@  @@   @@/@@////@@  @@////@@
@@ -314,6 +315,22 @@ elif [ "$UserSelect" = "GoToMyPC" ]; then
 		done
 	else
 		logcomment "GoToMyPC Plist .:. No plist files found."
+	fi
+#   @@@@@@@@ @@                                 @@@@@@                                               @@  
+#  @@////// /@@                                @@////@@                                             /@@  
+# /@@       /@@       @@@@@@   @@@@@@  @@@@@  @@    //   @@@@@@  @@@@@@@  @@@@@@@   @@@@@   @@@@@  @@@@@@
+# /@@@@@@@@@/@@@@@@  //////@@ //@@//@ @@///@@/@@        @@////@@//@@///@@//@@///@@ @@///@@ @@///@@///@@/ 
+# ////////@@/@@///@@  @@@@@@@  /@@ / /@@@@@@@/@@       /@@   /@@ /@@  /@@ /@@  /@@/@@@@@@@/@@  //   /@@  
+#        /@@/@@  /@@ @@////@@  /@@   /@@//// //@@    @@/@@   /@@ /@@  /@@ /@@  /@@/@@//// /@@   @@  /@@  
+#  @@@@@@@@ /@@  /@@//@@@@@@@@/@@@   //@@@@@@ //@@@@@@ //@@@@@@  @@@  /@@ @@@  /@@//@@@@@@//@@@@@   //@@ 
+# ////////  //   //  //////// ///     //////   //////   //////  ///   // ///   //  //////  /////     //  
+elif [ "$UserSelect" = "ShareConnect" ]; then
+	# Collect log files for ShareConnect
+	if [ -d /Library/Logs/com.citrixonline.ShareConnect ] && [ "$(ls -A /Library/Logs/com.citrixonline.ShareConnect)" ] ; then
+		logcomment "ShareConnect: Log Files"
+		rsync -av /Library/Logs/com.citrixonline.ShareConnect/* $TempDir/ShareConnect_Logs/ >> $LogFile 2>&1
+	else
+		logcomment "ShareConnect .:. No Logs Found"
 	fi
 else
 	logcomment "No Product Selected"

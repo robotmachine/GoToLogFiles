@@ -1,13 +1,17 @@
 #GoToLogFiles for Automator
-## Version 1.1
+## Version 1.2
 Unofficial OSX log file collector for Citrix SaaS Products
 * GoToMeeting/GoToWebinar/GoToTraining
 * GoToMyPC
 * GoToAssist Corporate & Remote Support
+* ShareConnect
 
-Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-s31fb96733bf49538)  
+Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-s4aa711b3b514e928)  
 
 ##CHANGELOG
+### 17 August, 2015 (v 1.2):
+* Added ShareConnect
+  
 ### 20 July, 2015 (v 1.1):
 * Drastically cut down scripting-- down to a single file  
 * GoToMyPC host and client merged to one entry  
