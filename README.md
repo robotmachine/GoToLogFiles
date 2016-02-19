@@ -6,13 +6,13 @@ Unofficial OSX log file collector for Citrix SaaS Products
 * GoToAssist Corporate & Remote Support
 * ShareConnect
 
-Just need to download the tool? [Click Here](https://citrix.sharefile.com/d-s4aa711b3b514e928)  
+Just need to download the tool? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.0/GoToLogFiles_v1.2.0.app.zip)  
 
 ##CHANGELOG
-### 17 August, 2015 (v 1.2):
+### 17 August, 2015 (v 1.2.0):
 * Added ShareConnect
   
-### 20 July, 2015 (v 1.1):
+### 20 July, 2015 (v 1.1.0):
 * Drastically cut down scripting-- down to a single file  
 * GoToMyPC host and client merged to one entry  
 * GoToAssist RS and Corp merged to one entry  
