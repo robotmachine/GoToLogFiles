@@ -1,0 +1,140 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" href="stylesheets/github-dark.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>GoToLogFiles</title>
+  <meta name="description" content="Unofficial OSX Log File Tool">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">GoToLogFiles</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Unofficial OSX Log File Tool</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/robotmachine/GoToLogFiles/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/robotmachine/GoToLogFiles/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/robotmachine/GoToLogFiles" class="code">View GoToLogFiles on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h2>
+<a id="version-120" class="anchor" href="#version-120" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version 1.2.0</h2>
+
+<p>Unofficial OSX log file collector for Citrix SaaS Products</p>
+
+<ul>
+<li>GoToMeeting/GoToWebinar/GoToTraining</li>
+<li>GoToMyPC</li>
+<li>GoToAssist Corporate &amp; Remote Support</li>
+<li>ShareConnect</li>
+</ul>
+
+<p>Just need to download the tool? <a href="https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.0/GoToLogFiles_v1.2.0.app.zip">Click Here</a>  </p>
+
+<h2>
+<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CHANGELOG</h2>
+
+<h3>
+<a id="17-august-2015-v-120" class="anchor" href="#17-august-2015-v-120" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>17 August, 2015 (v 1.2.0):</h3>
+
+<ul>
+<li>Added ShareConnect</li>
+</ul>
+
+<h3>
+<a id="20-july-2015-v-110" class="anchor" href="#20-july-2015-v-110" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>20 July, 2015 (v 1.1.0):</h3>
+
+<ul>
+<li>Drastically cut down scripting-- down to a single file<br>
+</li>
+<li>GoToMyPC host and client merged to one entry<br>
+</li>
+<li>GoToAssist RS and Corp merged to one entry<br>
+</li>
+<li>User prompt now built in to shell script<br>
+</li>
+<li>Desktop folder is popped after log file collection<br>
+</li>
+</ul>
+
+<h3>
+<a id="13-july-2015-v-09" class="anchor" href="#13-july-2015-v-09" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>13 July, 2015 (v 0.9):</h3>
+
+<ul>
+<li>Printing plist files to text files<br>
+</li>
+</ul>
+
+<h3>
+<a id="26-june-2015-v-08" class="anchor" href="#26-june-2015-v-08" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>26 June, 2015 (v 0.8):</h3>
+
+<ul>
+<li>Cut down on redundant scripting</li>
+<li>Created a start.sh and finish.sh for all logging that is common to all products</li>
+<li>Rewrote Voltron to use a function to reduce redundancy<br>
+</li>
+</ul>
+
+<h3>
+<a id="25-june-2015-v-06" class="anchor" href="#25-june-2015-v-06" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>25 June, 2015 (v 0.6):</h3>
+
+<ul>
+<li>Simplified output of ps for running process log</li>
+<li>Added <code>diskutil list</code> and <code>df -H</code> logging to Disk_Info.txt</li>
+</ul>
+
+<h3>
+<a id="11-march-2015-v-05" class="anchor" href="#11-march-2015-v-05" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>11 March, 2015 (v 0.5):</h3>
+
+<ul>
+<li>Removed GoToMeeting Recording logs as they are no longer needed<br>
+</li>
+<li>File name now has a Unix Epoch date stamp to avoid globbed files<br>
+</li>
+<li>After the logs are collected, a prompt notifies that the process is complete<br>
+</li>
+<li>Samples are collected of the GoToMeeting EP and RecMgr if they are running<br>
+</li>
+</ul>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/robotmachine" class="avatar"><img src="https://avatars1.githubusercontent.com/u/186000?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/robotmachine">robotmachine</a> maintains <a href="https://github.com/robotmachine/GoToLogFiles">GoToLogFiles</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/robotmachine/GoToLogFiles/tarball/master" class="tar">tar</a><a href="https://github.com/robotmachine/GoToLogFiles/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
