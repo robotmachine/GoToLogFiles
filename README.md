@@ -1,14 +1,18 @@
 #GoToLogFiles for Automator
-## Version 1.2.0
+## Version 1.2.1
 Unofficial OSX log file collector for Citrix SaaS Products
 * GoToMeeting/GoToWebinar/GoToTraining
 * GoToMyPC
 * GoToAssist Corporate & Remote Support
 * ShareConnect
 
-Just need to download the tool? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.0/GoToLogFiles_v1.2.0.app.zip)  
+Just need to download the tool? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.1/GoToLogFiles_v1.2.1.app.zip)  
 
 ##CHANGELOG
+
+### 29 September, 2016 (v 1.2.1):
+* Added support for macOS Sierra
+
 ### 17 August, 2015 (v 1.2.0):
 * Added ShareConnect
   
