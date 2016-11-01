@@ -9,7 +9,7 @@
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@@@@@@@//@@@@@@   @@@@@ /@@      /@@ @@@//@@@@@@ @@@@@@ 
 #   ////////   //////      //      //////  ////////  //////   /////  //       // ///  ////// //////  
 #
-# GoToLogFiles v.1.2.1
+# GoToLogFiles v.1.2.2
 #
 # Description:
 # Collects log files and diagnostic information for Citrix SaaS products:
