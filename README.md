@@ -1,5 +1,5 @@
 #GoToLogFiles for Automator
-## Version 1.2.1
+## Version 1.2.2
 Unofficial OSX log file collector for Citrix SaaS Products
 * GoToMeeting/GoToWebinar/GoToTraining
 * GoToMyPC
