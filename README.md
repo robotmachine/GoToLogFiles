@@ -6,8 +6,8 @@ Unofficial OSX log file collector for Citrix SaaS Products
 * GoToAssist Corporate & Remote Support
 * ShareConnect
 
-Just need to download the tool? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.2/GoToLogFiles-v1.2.2.app.zip)  
-Prefer a version that does not collect system information? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.2/GoToLogFiles-NoSys-v1.2.2.app.zip)
+Just need to download the tool? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.2/GoToLogFiles-v1.2.2.zip)  
+Prefer a version that does not collect system information? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/v1.2.2/GoToLogFiles-NoSys-v1.2.2.zip)
 
 ##CHANGELOG
 
