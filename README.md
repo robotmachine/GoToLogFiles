@@ -1,6 +1,6 @@
-#GoToLogFiles for Automator
+# GoToLogFiles for Automator
 ## Version 1.2.2
-Unofficial OSX log file collector for Citrix SaaS Products
+Unofficial macOS log file collector for:
 * GoToMeeting/GoToWebinar/GoToTraining
 * GoToMyPC
 * GoToAssist Corporate & Remote Support
@@ -10,6 +10,10 @@ Just need to download the tool? [Click Here](https://github.com/robotmachine/GoT
 Prefer a version that does not collect system information? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/latest/GoToLogFiles-NoSys-latest.zip)
 
 ##CHANGELOG
+
+### 22 March, 2017 (v 1.3.0):
+* Removed Citrix references
+* Changed archive from .tgz to .zip (Issue #4)
 
 ### 31 October, 2016 (v 1.2.2):
 * Added an icon
