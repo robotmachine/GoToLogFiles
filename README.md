@@ -1,5 +1,5 @@
 # GoToLogFiles for Automator
-## Version 1.2.2
+## Version 1.3.0
 Unofficial macOS log file collector for:
 * GoToMeeting/GoToWebinar/GoToTraining
 * GoToMyPC
