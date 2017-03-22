@@ -9,20 +9,20 @@
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@@@@@@@//@@@@@@   @@@@@ /@@      /@@ @@@//@@@@@@ @@@@@@ 
 #   ////////   //////      //      //////  ////////  //////   /////  //       // ///  ////// //////  
 #
-# GoToLogFiles v.1.2.2
+# GoToLogFiles v.1.3.0
 #
 # Description:
-# Collects log files and diagnostic information for Citrix SaaS products:
+# Collects log files and diagnostic information for:
 # * GoToMeeting/GoToWebinar/GoToTraining
 # * GoToMyPC
 # * GoToAssist Corporate/Remote Support
 # * ShareConnect
 #
 # Homepage:
-# https://github.com/robotmachine/GoToLogFiles_Automator
+# https://github.com/robotmachine/GoToLogFiles
 #
 # Maintained by:
-# Brian A Carter (robotmachine@gmail.com)
+# Brian A Carter (robotmachine@protonmail.ch)
 #
 # Originally Created by:
 # Brian A Carter
@@ -113,10 +113,10 @@ fi
 # Collect system log
 	logcomment "System Log"
 	rsync -av /Private/Var/Log/system.log* $TempDir/OSX_Logs/SystemLog/ >> $LogFile 2>&1
-# Collect Citrix Launcher log and Plist file
-	logcomment "Citrix Launcher log"
+# Collect Launcher log and Plist file
+	logcomment "Launcher log"
 	rsync -av ~/Library/Logs/com.citrixonline.WebDeployment/* $TempDir/Launcher/ >> $LogFile 2>&1
-	logcomment "Citrix Launcher plist"
+	logcomment "Launcher plist"
 	if ls ~/Library/Preferences/com.citrixonline.mac.WebDeploymentApp* 1> /dev/null 2>&1 ; then
 		if [[ ! -e $TempDir/Plist/ ]] ; then 
 			mkdir $TempDir/Plist/
@@ -125,7 +125,7 @@ fi
 			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
 		done
 	else
-		logcomment "Citrix Launcher Plist .:. No plist files found."
+		logcomment "Launcher Plist .:. No plist files found."
 	fi
 # Collect system diagnostic information
 	logcomment "Diagnostic Information (Only errors are logged)"
