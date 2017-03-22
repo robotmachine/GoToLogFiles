@@ -44,7 +44,7 @@ FilePath=~/Desktop
 # Sets variables for the script.
 TempName=GoToLogFiles_$(date +%s)
 TempDir=$FilePath/.$TempName
-ArchiveName=$FilePath/$TempName.tgz
+ArchiveName=$FilePath/$TempName.zip
 LogFile=~/Library/Logs/com.citrixonline.g2logfiles.log
 # Remove the temp directory when the script exits even if due to error
 cleanup() {
@@ -345,4 +345,4 @@ fi
 	rsync -a $LogFile $TempDir/GoToLogFiles.log
 #
 # Create a compressed archive of all collected data.
-	tar -czf $ArchiveName -C $TempDir .
+	zip -9r $ArchiveName $TempDir
