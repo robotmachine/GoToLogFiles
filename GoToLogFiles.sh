@@ -345,4 +345,6 @@ fi
 	rsync -a $LogFile $TempDir/GoToLogFiles.log
 #
 # Create a compressed archive of all collected data.
-	zip -9r $ArchiveName $TempDir
+    pushd $TempDir
+    zip -r $ArchiveName *
+    popd
