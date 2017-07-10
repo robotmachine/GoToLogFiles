@@ -180,6 +180,10 @@ elif [[ "$UserSelect" == "GoToMeeting" ]]; then
 	else 
 		logcomment "GoToMeeting: Log Files .:. No Logs Found"
 	fi
+	if [ -d ~/Library/Logs/com.logmein.GoToMeeting ] && [ "$(ls -A ~/Library/Logs/com.logmein.GoToMeeting)" ] ; then 
+		logcomment "LogMeIn GoToMeeting: Log Files"
+		rsync -av ~/Library/Logs/com.logmein.GoToMeeting/* $TempDir/GoToMeeting_Logs >> $LogFile 2>&1
+        fi
 	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager)" ]; then
 		logcomment "GoToMeeting: Recording Manager Log Files"
 		rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* $TempDir/Recording_Manager >> $LogFile 2>&1
@@ -195,6 +199,15 @@ elif [[ "$UserSelect" == "GoToMeeting" ]]; then
 		if [[ ! -e $TempDir/Plist ]] ; then mkdir $TempDir/Plist
 		fi
 		for FILE in ~/Library/Preferences/com.citrixonline.GoToMeeting* ; do
+			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
+		done
+	else
+		logcomment "GoToMeeting Plist .:. No plist files found."
+	fi
+	if ls ~/Library/Preferences/com.logmein.GoToMeeting* 1> /dev/null 2>&1 ; then
+		if [[ ! -e $TempDir/Plist ]] ; then mkdir $TempDir/Plist
+		fi
+		for FILE in ~/Library/Preferences/com.logmein.GoToMeeting* ; do
 			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
 		done
 	else
