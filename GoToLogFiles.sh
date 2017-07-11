@@ -9,7 +9,7 @@
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@@@@@@@//@@@@@@   @@@@@ /@@      /@@ @@@//@@@@@@ @@@@@@ 
 #   ////////   //////      //      //////  ////////  //////   /////  //       // ///  ////// //////  
 #
-# GoToLogFiles v.1.3.0
+# GoToLogFiles v.1.4.2
 #
 # Description:
 # Collects log files and diagnostic information for:
@@ -45,7 +45,7 @@ FilePath=~/Desktop
 TempName=GoToLogFiles_$(date +%s)
 TempDir=$FilePath/.$TempName
 ArchiveName=$FilePath/$TempName.zip
-LogFile=~/Library/Logs/com.citrixonline.g2logfiles.log
+LogFile=~/Library/Logs/com.logmein.g2logfiles.log
 # Remove the temp directory when the script exits even if due to error
 cleanup() {
 	rm -rf $TempDir
@@ -113,20 +113,38 @@ fi
 # Collect system log
 	logcomment "System Log"
 	rsync -av /Private/Var/Log/system.log* $TempDir/OSX_Logs/SystemLog/ >> $LogFile 2>&1
-# Collect Launcher log and Plist file
-	logcomment "Launcher log"
-	rsync -av ~/Library/Logs/com.citrixonline.WebDeployment/* $TempDir/Launcher/ >> $LogFile 2>&1
-	logcomment "Launcher plist"
-	if ls ~/Library/Preferences/com.citrixonline.mac.WebDeploymentApp* 1> /dev/null 2>&1 ; then
-		if [[ ! -e $TempDir/Plist/ ]] ; then 
-			mkdir $TempDir/Plist/
-		fi
-		for FILE in ~/Library/Preferences/com.citrixonline.mac.WebDeploymentApp* ; do
-			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
-		done
-	else
-		logcomment "Launcher Plist .:. No plist files found."
-	fi
+#
+## Collect Launcher/Opener Logs
+        gtoLogTempDir="$TempDir/Opener_Logs"
+        mkdir $gtoLogTempDir
+        gtoLogIds=(com.citrixonline.mac.WebDeploymentApp
+                  com.citrixonline.WebDeployment
+                  com.logmein.WebDeployment)
+        for logId in "${gtoLogIds[@]}"; do
+            logPath="$HOME/Library/Logs/$logId"
+            if [[ -e "$logPath" ]]; then
+                logcomment "Opener: Log Files .:. $logId"
+                rsync -av $logPath/* $gtoLogTempDir/$logId/ >> $LogFile 2>&1
+            else
+                logcomment "Opener: Log Files .:. No Logs Found in $logId"
+            fi
+        done
+#
+##  Collect Launcher/Opener Plists
+        gtoPlistTempDir="$TempDir/Opener_Plists"
+        mkdir $gtoPlistTempDir
+        gtoPlistIds=(com.citrixonline.mac.WebDeploymentApp.plist
+                    com.citrixonline.WebDeployment.plist
+                    com.logmein.WebDeployment.plist)
+        for plistId in "${gtoPlistIds[@]}"; do
+            plistPath="$HOME/Library/Preferences/$plistId"
+            if [[ -e "$plistPath" ]]; then
+                logcomment "Opener: Plist .:. $plistId"
+                defaults read $plistPath > $gtoPlistTempDir/$(echo "$plistId").txt
+            else
+                logcomment "Opener: Plist .:. $plistId not found."
+            fi
+        done
 # Collect system diagnostic information
 	logcomment "Diagnostic Information (Only errors are logged)"
 	DiagFolder=$TempDir/Diagnostic
@@ -220,51 +238,40 @@ if [[ "$UserSelect" == "GoToAssist" ]]; then
 #
 elif [[ "$UserSelect" == "GoToMeeting" ]]; then
 	# Collect GoToMeeting and GoToMeeting Recording Manager logs
-	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting)" ]; then 
-		logcomment "GoToMeeting: Log Files"
-		rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting/* $TempDir/GoToMeeting_Logs >> $LogFile 2>&1
-	else 
-		logcomment "GoToMeeting: Log Files .:. No Logs Found"
-	fi
-	if [ -d ~/Library/Logs/com.logmein.GoToMeeting ] && [ "$(ls -A ~/Library/Logs/com.logmein.GoToMeeting)" ] ; then 
-		logcomment "LogMeIn GoToMeeting: Log Files"
-		rsync -av ~/Library/Logs/com.logmein.GoToMeeting/* $TempDir/GoToMeeting_Logs >> $LogFile 2>&1
-        fi
-	if [ -d ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager)" ]; then
-		logcomment "GoToMeeting: Recording Manager Log Files"
-		rsync -av ~/Library/Logs/com.citrixonline.GoToMeeting_Recording_Manager/* $TempDir/Recording_Manager >> $LogFile 2>&1
-	elif [ -d ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager ] && [ "$(ls -A ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager)" ] ; then 
-		logcomment "GoToMeeting: Recording Manager Log Files"
-		rsync -av ~/Library/Logs/com.citrixonline.Mac.GoToMeeting.RecordingManager/* $TempDir/Recording_Manager  >> $LogFile 2>&1
-	else 
-		logcomment "GoToMeeting: Recording Manager Log Files .:. No Logs Found"
-	fi
-	#
-	# Copy GoToMeeting preferences to a text file.
-	if ls ~/Library/Preferences/com.citrixonline.GoToMeeting* 1> /dev/null 2>&1 ; then
-		if [[ ! -e $TempDir/Plist ]] ; then mkdir $TempDir/Plist
-		fi
-		for FILE in ~/Library/Preferences/com.citrixonline.GoToMeeting* ; do
-			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
-		done
-	else
-		logcomment "GoToMeeting Plist .:. No plist files found."
-	fi
-	if ls ~/Library/Preferences/com.logmein.GoToMeeting* 1> /dev/null 2>&1 ; then
-		if [[ ! -e $TempDir/Plist ]] ; then mkdir $TempDir/Plist
-		fi
-		for FILE in ~/Library/Preferences/com.logmein.GoToMeeting* ; do
-			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
-		done
-	else
-		logcomment "GoToMeeting Plist .:. No plist files found."
-	fi
-	# Sample GoToMeeting processes if they are running
-	mkdir $TempDir/Sample
-	logcomment "GoToMeeting: Sample Process .:. Only Errors Logged"
-	sample GoToMeeting > $TempDir/Sample/GoToMeeting_Sample.txt 2>>$LogFile
-	sample "GoToMeeting Recording Manager" > $TempDir/Sample/GoToMeetingRecMgr_Sample.txt 2>>$LogFile
-
+        gtmLogsTempDir="$TempDir/GoToMeeting_Logs"
+        mkdir $gtmLogsTempDir
+        gtmLogIds=(com.citrixonline.GoToMeeting
+                   com.logmein.GoToMeeting
+                   com.citrixonline.GoToMeeting_Recording_Manager
+                   com.citrixonline.Mac.GoToMeeting.RecordingManager)
+        for logId in "${gtmLogIds[@]}"; do
+            echo "$logId"
+            logPath="$HOME/Library/Logs/$logId"
+            if [[ -e "$logPath" ]]; then
+                logcomment "GoToMeeting: Log Files .:. $logId"
+                rsync -av $logPath/* $gtmLogsTempDir/$logId >> $LogFile 2>&1
+            else
+                logcomment "GoToMeeting: Log Files .:. No Logs Found in $logId"
+            fi
+	done
+        # Collect Plist Files
+        gtmPlistTempDir="$TempDir/GoToMeeting_Plist"
+        mkdir "$gtmPlistTempDir"
+        gtmPlistIds=(com.citrixonline.GoToMeeting.plist
+                     com.citrixonline.G2MUpdate.plist
+                     com.logmein.GoToMeeting.plist
+                     com.logmein.G2MUpdate.plist
+                     com.logmein.gotomeeting-messenger.plist
+                     com.logmein.gotomeeting-messenger.helper.plist)
+        for plistId in "${gtmPlistIds[@]}"; do
+            plistPath="$HOME/Library/Preferences/$plistId"
+            if [[ -e "$plistPath" ]]; then
+                logcomment "GoToMeeting Plist .:. $plistId"
+                defaults read $plistPath > $gtmPlistTempDir/$(echo "$plistId").txt
+            else
+                logcomment "GoToMeeting Plist .:. $plistId not found."
+            fi
+        done
 #
 #    @@@@@@@@           @@@@@@@@@@          @@@@     @@@@          @@@@@@@    @@@@@@ 
 #   @@//////@@         /////@@///          /@@/@@   @@/@@  @@   @@/@@////@@  @@////@@

@@ -11,8 +11,8 @@ Prefer a version that does not collect system information? [Click Here](https://
 
 ## CHANGELOG
 
-### 10 July, 2017 (v 1.4.0):
-* Updated log paths to add LogMeIn name
+### 11 July, 2017 (v 1.4.2):
+* Updated GoToMeeting/Webinar/Training log paths to add LogMeIn name
 
 ### 22 March, 2017 (v 1.3.0):
 * Removed Citrix references
