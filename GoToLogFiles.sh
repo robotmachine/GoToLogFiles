@@ -245,40 +245,44 @@ if [[ "$UserSelect" == "GoToAssist" ]]; then
 #   ////////   //////      //      //////  //         //  //////  //////    //  // ///   //  /////  
 #
 elif [[ "$UserSelect" == "GoToMeeting" ]]; then
-	# Collect GoToMeeting and GoToMeeting Recording Manager logs
-        gtmLogsTempDir="$TempDir/GoToMeeting_Logs"
-        mkdir $gtmLogsTempDir
-        gtmLogIds=(com.citrixonline.GoToMeeting
-                   com.logmein.GoToMeeting
-                   com.citrixonline.GoToMeeting_Recording_Manager
-                   com.citrixonline.Mac.GoToMeeting.RecordingManager)
-        for logId in "${gtmLogIds[@]}"; do
-            logPath="$HOME/Library/Logs/$logId"
-            if [[ -e "$logPath" ]]; then
-                logcomment "GoToMeeting: Log Files .:. $logId"
-                rsync -av $logPath/* $gtmLogsTempDir/$logId/ >> $LogFile 2>&1
-            else
-                logcomment "GoToMeeting: Log Files .:. No Logs Found in $logId"
-            fi
-	done
-        # Collect Plist Files
-        gtmPlistTempDir="$TempDir/GoToMeeting_Plist"
-        mkdir "$gtmPlistTempDir"
-        gtmPlistIds=(com.citrixonline.GoToMeeting.plist
-                     com.citrixonline.G2MUpdate.plist
-                     com.logmein.GoToMeeting.plist
-                     com.logmein.G2MUpdate.plist
-                     com.logmein.gotomeeting-messenger.plist
-                     com.logmein.gotomeeting-messenger.helper.plist)
-        for plistId in "${gtmPlistIds[@]}"; do
-            plistPath="$HOME/Library/Preferences/$plistId"
-            if [[ -e "$plistPath" ]]; then
-                logcomment "GoToMeeting Plist .:. $plistId"
-                defaults read $plistPath > $gtmPlistTempDir/$(echo "$plistId").txt
-            else
-                logcomment "GoToMeeting Plist .:. $plistId not found."
-            fi
-        done
+    #
+    ## Collect GoToMeeting and GoToMeeting Recording Manager logs
+    gtmLogsTempDir="$TempDir/GoToMeeting_Logs"
+    mkdir $gtmLogsTempDir
+    gtmLogIds=(com.citrixonline.GoToMeeting
+               com.logmein.GoToMeeting
+               com.citrixonline.GoToMeeting_Recording_Manager
+               com.citrixonline.Mac.GoToMeeting.RecordingManager
+              )
+    for logId in "${gtmLogIds[@]}"; do
+        logPath="$HOME/Library/Logs/$logId"
+        if [[ -e "$logPath" ]]; then
+            logcomment "GoToMeeting: Log Files .:. $logId"
+            rsync -av $logPath/* $gtmLogsTempDir/$logId/ >> $LogFile 2>&1
+        else
+            logcomment "GoToMeeting: Log Files .:. No Logs Found in $logId"
+        fi
+    done
+    #
+    ## Collect Plist Files
+    gtmPlistTempDir="$TempDir/GoToMeeting_Plist"
+    mkdir "$gtmPlistTempDir"
+    gtmPlistIds=(com.citrixonline.GoToMeeting.plist
+                 com.citrixonline.G2MUpdate.plist
+                 com.logmein.GoToMeeting.plist
+                 com.logmein.G2MUpdate.plist
+                 com.logmein.gotomeeting-messenger.plist
+                 com.logmein.gotomeeting-messenger.helper.plist
+                )
+    for plistId in "${gtmPlistIds[@]}"; do
+        plistPath="$HOME/Library/Preferences/$plistId"
+        if [[ -e "$plistPath" ]]; then
+            logcomment "GoToMeeting Plist .:. $plistId"
+            defaults read $plistPath > $gtmPlistTempDir/$(echo "$plistId").txt
+        else
+            logcomment "GoToMeeting Plist .:. $plistId not found."
+        fi
+    done
 #
 #    @@@@@@@@           @@@@@@@@@@          @@@@     @@@@          @@@@@@@    @@@@@@ 
 #   @@//////@@         /////@@///          /@@/@@   @@/@@  @@   @@/@@////@@  @@////@@
@@ -290,64 +294,64 @@ elif [[ "$UserSelect" == "GoToMeeting" ]]; then
 #   ////////   //////      //      //////  //         //  //      //         //////  
 #
 elif [ "$UserSelect" = "GoToMyPC" ]; then
-#
-## GoToMyPC Logs
-gtpHostLogTemp="$TempDir/GoToMyPC_Host_Logs"
-gtpClientLogTemp="$TempDir/GoToMyPC_Client_Logs"
-gtpLogIds=(com.citrixonline.GoToMyPC
-           com.logmein.GoToMyPC
-          )
-for logId in "${gtpLogIds[@]}"; do
-    hostLogPath="/Library/Logs/$logId"
-    clientLogPath="$HOME/Library/Logs/$logId"
-    if [[ -e "$hostLogPath" ]]; then
-        mkdir $gtpHostLogTemp
-        logcomment "GoToMyPC: Host Log Files .:. $logId"
-        rsync -av $hostLogPath/* $gtpHostLogTemp/$logId/ >> $LogFile 2>&1
-    else
-        logcomment "GoToMyPC: Host Log Files .:. No Logs Found in $logId"
-    fi
-    if [[ -e "$clientLogPath" ]]; then
-        mkdir $gtpClientLogTemp
-        logcomment "GoToMyPC: Client Log Files .:. $logId"
-        rsync -av $clientLogPath/* $gtpClientLogTemp/$logId/ >> $LogFile 2>&1
-    else
-        logcomment "GoToMyPC: Client Log Files .:. No Logs Found in $logId"
-    fi
-done
-#
-## GoToMyPC Host Plists
-gtpHostPlistTemp="$TempDir/GoToMyPC_Host_Plist"
-gtpHostPlistIds=(com.citrixonline.GoToMyPC
-                 com.logmein.GoToMyPC
-                )
-for plistId in "${$gtpHostPlistIds[@]}"; do
-    plistPath="/Library/Preferences/$plistId"
-    if [[ -e "plistPath" ]]; then
-        mkdir $gtpHostPlistTemp
-        logcomment "GoToMyPC: Host Plist .:. $plistId"
-        defaults read $plistPath > $gtpHostPlistTemp/$(echo "$plistId").txt
-    else
-        logcomment "GoToMyPC: Host Plist .:. $plistId not found."
-    fi
-done
-#
-## GoToMyPC Client Plists
-gtpClientPlistTemp="$TempDir/GoToMyPC_Client_Plist"
-gtpClientPlistIds=(com.citrixonline.GoToMyPC.SystemStatusUIHost.plist
-                   com.citrixonline.g2p.viewer.plist
-                   com.logmein.GoToMyPC.SystemStatusUIHost.plist
-                  )
-for plistId in "${$gtpClientPlistIds[@]}"; do
-    plistPath="$HOME/Library/Preferences/$plistId"
-    if [[ -e "plistPath" ]]; then
-        mkdir $gtpClientPlistTemp
-        logcomment "GoToMyPC: Client Plist .:. $plistId"
-        defaults read $plistPath > $gtpClientPlistTemp/$(echo "$plistId").txt
-    else
-        logcomment "GoToMyPC: Client Plist .:. $plistId not found."
-    fi
-done
+    #
+    ## GoToMyPC Logs
+    gtpHostLogTemp="$TempDir/GoToMyPC_Host_Logs"
+    gtpClientLogTemp="$TempDir/GoToMyPC_Client_Logs"
+    gtpLogIds=(com.citrixonline.GoToMyPC
+               com.logmein.GoToMyPC
+              )
+    for logId in "${gtpLogIds[@]}"; do
+        hostLogPath="/Library/Logs/$logId"
+        clientLogPath="$HOME/Library/Logs/$logId"
+        if [[ -e "$hostLogPath" ]]; then
+            mkdir $gtpHostLogTemp
+            logcomment "GoToMyPC: Host Log Files .:. $logId"
+            rsync -av $hostLogPath/* $gtpHostLogTemp/$logId/ >> $LogFile 2>&1
+        else
+            logcomment "GoToMyPC: Host Log Files .:. No Logs Found in $logId"
+        fi
+        if [[ -e "$clientLogPath" ]]; then
+            mkdir $gtpClientLogTemp
+            logcomment "GoToMyPC: Client Log Files .:. $logId"
+            rsync -av $clientLogPath/* $gtpClientLogTemp/$logId/ >> $LogFile 2>&1
+        else
+            logcomment "GoToMyPC: Client Log Files .:. No Logs Found in $logId"
+        fi
+    done
+    #
+    ## GoToMyPC Host Plists
+    gtpHostPlistTemp="$TempDir/GoToMyPC_Host_Plist"
+    gtpHostPlistIds=(com.citrixonline.GoToMyPC
+                     com.logmein.GoToMyPC
+                    )
+    for plistId in "${$gtpHostPlistIds[@]}"; do
+        plistPath="/Library/Preferences/$plistId"
+        if [[ -e "plistPath" ]]; then
+            mkdir $gtpHostPlistTemp
+            logcomment "GoToMyPC: Host Plist .:. $plistId"
+            defaults read $plistPath > $gtpHostPlistTemp/$(echo "$plistId").txt
+        else
+            logcomment "GoToMyPC: Host Plist .:. $plistId not found."
+        fi
+    done
+    #
+    ## GoToMyPC Client Plists
+    gtpClientPlistTemp="$TempDir/GoToMyPC_Client_Plist"
+    gtpClientPlistIds=(com.citrixonline.GoToMyPC.SystemStatusUIHost.plist
+                       com.citrixonline.g2p.viewer.plist
+                       com.logmein.GoToMyPC.SystemStatusUIHost.plist
+                      )
+    for plistId in "${$gtpClientPlistIds[@]}"; do
+        plistPath="$HOME/Library/Preferences/$plistId"
+        if [[ -e "plistPath" ]]; then
+            mkdir $gtpClientPlistTemp
+            logcomment "GoToMyPC: Client Plist .:. $plistId"
+            defaults read $plistPath > $gtpClientPlistTemp/$(echo "$plistId").txt
+        else
+            logcomment "GoToMyPC: Client Plist .:. $plistId not found."
+        fi
+    done
 #
 #   @@@@@@@@ @@                                 @@@@@@                                               @@  
 #  @@////// /@@                                @@////@@                                             /@@  
