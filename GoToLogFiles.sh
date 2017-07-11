@@ -78,41 +78,13 @@ fi
 #  //@@@@@@ //@@@@@@  @@@ /@@ /@@ @@@ /@@ /@@//@@@@@@  @@@  /@@  /@@@@@@@@//@@@@@@   @@@@@  @@@@@@ 
 #   //////   //////  ///  //  // ///  //  //  //////  ///   //   ////////  //////   /////  //////  
 #
-# Create a temporary folder if it does not already exist.
+## Create a temporary folder if it does not already exist.
 	if [ ! -d "$TempDir" ]; then
 		mkdir $TempDir
 	fi
-# Initialise a new log file
+#
+## Initialise a new log file
 	echo "GoToLogFiles log started $(date)" > $LogFile
-# Collect CrashReporter and DiagnosticReports data for both the system and user
-	mkdir "$TempDir/OSX_Logs"
-	if [ -d ~/Library/Logs/DiagnosticReports ] && [ "$(ls -A ~/Library/Logs/DiagnosticReports)" ]; then
-		logcomment "DiagnosticReports: User"
-		rsync -av --exclude="MobileDevice" ~/Library/Logs/DiagnosticReports/* $TempDir/OSX_Logs/DiagnosticReports_User/ >> $LogFile 2>>$LogFile
-	else 
-		logcomment "DiagnosticReports: User .:. Directory Empty"
-	fi
-	if [ -d ~/Library/Logs/CrashReporter ] && [ "$(ls -A ~/Library/Logs/CrashReporter)" ]; then
-		logcomment "CrashReporter: User"
-		rsync -av --exclude="MobileDevice" ~/Library/Logs/CrashReporter/* $TempDir/OSX_Logs/CrashReporter_User/ >> $LogFile 2>>$LogFile
-	else
-		logcomment "CrashReporter: User .:. Directory Empty"
-	fi
-	if [ -d /Library/Logs/DiagnosticReports ] && [ "$(ls -A /Library/Logs/DiagnosticReports)" ]; then
-		logcomment "DiagnosticReports: System"
-		rsync -av /Library/Logs/DiagnosticReports/* $TempDir/OSX_Logs/DiagnosticReports_System/ >> $LogFile 2>>$LogFile
-	else 
-		logcomment "DiagnosticReports: System .:. Directory Empty"
-	fi
-	if [ -d /Library/Logs/CrashReporter ] && [ "$(ls -A /Library/Logs/CrashReporter)" ]; then
-		logcomment "CrashReporter: System"
-		rsync -av /Library/Logs/CrashReporter/* $TempDir/OSX_Logs/CrashReporter_System/ >> $LogFile 2>>$LogFile
-	else
-		logcomment "CrashReporter: System .:. Directory Empty"
-	fi
-# Collect system log
-	logcomment "System Log"
-	rsync -av /Private/Var/Log/system.log* $TempDir/OSX_Logs/SystemLog/ >> $LogFile 2>&1
 #
 ## Collect Launcher/Opener Logs
         gtoLogTempDir="$TempDir/Opener_Logs"
@@ -145,6 +117,39 @@ fi
                 logcomment "Opener: Plist .:. $plistId not found."
             fi
         done
+##
+## !! BEGIN SYSTEM LOG SECTION !!
+##
+# Collect CrashReporter and DiagnosticReports data for both the system and user
+	mkdir "$TempDir/OSX_Logs"
+	if [ -d ~/Library/Logs/DiagnosticReports ] && [ "$(ls -A ~/Library/Logs/DiagnosticReports)" ]; then
+		logcomment "DiagnosticReports: User"
+		rsync -av --exclude="MobileDevice" ~/Library/Logs/DiagnosticReports/* $TempDir/OSX_Logs/DiagnosticReports_User/ >> $LogFile 2>>$LogFile
+	else 
+		logcomment "DiagnosticReports: User .:. Directory Empty"
+	fi
+	if [ -d ~/Library/Logs/CrashReporter ] && [ "$(ls -A ~/Library/Logs/CrashReporter)" ]; then
+		logcomment "CrashReporter: User"
+		rsync -av --exclude="MobileDevice" ~/Library/Logs/CrashReporter/* $TempDir/OSX_Logs/CrashReporter_User/ >> $LogFile 2>>$LogFile
+	else
+		logcomment "CrashReporter: User .:. Directory Empty"
+	fi
+	if [ -d /Library/Logs/DiagnosticReports ] && [ "$(ls -A /Library/Logs/DiagnosticReports)" ]; then
+		logcomment "DiagnosticReports: System"
+		rsync -av /Library/Logs/DiagnosticReports/* $TempDir/OSX_Logs/DiagnosticReports_System/ >> $LogFile 2>>$LogFile
+	else 
+		logcomment "DiagnosticReports: System .:. Directory Empty"
+	fi
+	if [ -d /Library/Logs/CrashReporter ] && [ "$(ls -A /Library/Logs/CrashReporter)" ]; then
+		logcomment "CrashReporter: System"
+		rsync -av /Library/Logs/CrashReporter/* $TempDir/OSX_Logs/CrashReporter_System/ >> $LogFile 2>>$LogFile
+	else
+		logcomment "CrashReporter: System .:. Directory Empty"
+	fi
+# Collect system log
+	logcomment "System Log"
+	rsync -av /Private/Var/Log/system.log* $TempDir/OSX_Logs/SystemLog/ >> $LogFile 2>&1
+#
 # Collect system diagnostic information
 	logcomment "Diagnostic Information (Only errors are logged)"
 	DiagFolder=$TempDir/Diagnostic
@@ -161,6 +166,9 @@ fi
 	system_profiler SPPowerDataType >> $DiagFolder/System_Profiler.txt 2>> $LogFile
 	system_profiler SPAudioDataType >> $DiagFolder/System_Profiler.txt 2>> $LogFile
 	system_profiler SPSerialATADataType >> $DiagFolder/System_Profiler.txt 2>> $LogFile
+##
+## !! END SYSTEM LOG SECTION !!
+##
 #
 #    @@@@@@@@           @@@@@@@@@@              @@                     @@           @@  
 #   @@//////@@         /////@@///              @@@@                   //           /@@  
