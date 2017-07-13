@@ -9,7 +9,7 @@
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@@@@@@@//@@@@@@   @@@@@ /@@      /@@ @@@//@@@@@@ @@@@@@ 
 #   ////////   //////      //      //////  ////////  //////   /////  //       // ///  ////// //////  
 #
-# GoToLogFiles v.1.4.3
+# GoToLogFiles v.1.4.5
 #
 # Description:
 # Collects log files and diagnostic information for:
@@ -48,7 +48,7 @@ ArchiveName=$FilePath/$TempName.zip
 LogFile=~/Library/Logs/com.logmein.g2logfiles.log
 # Remove the temp directory when the script exits even if due to error
 cleanup() {
-	rm -rf $TempDir
+	rm -rf "$TempDir"
 }
 trap "cleanup" EXIT
 # Commenting in the log
@@ -80,7 +80,7 @@ fi
 #
 ## Create a temporary folder if it does not already exist.
 	if [ ! -d "$TempDir" ]; then
-		mkdir $TempDir
+		mkdir "$TempDir"
 	fi
 #
 ## Initialise a new log file
@@ -88,7 +88,7 @@ fi
 #
 ## Collect Launcher/Opener Logs
         gtoLogTempDir="$TempDir/Opener_Logs"
-        mkdir $gtoLogTempDir
+        mkdir "$gtoLogTempDir"
         gtoLogIds=(com.citrixonline.mac.WebDeploymentApp
                   com.citrixonline.WebDeployment
                   com.logmein.WebDeployment)
@@ -96,7 +96,7 @@ fi
             logPath="$HOME/Library/Logs/$logId"
             if [[ -e "$logPath" ]]; then
                 logcomment "Opener: Log Files .:. $logId"
-                rsync -av $logPath/* $gtoLogTempDir/$logId/ >> $LogFile 2>&1
+                rsync -av "$logPath"/* "$gtoLogTempDir/$logId/" >> $LogFile 2>&1
             else
                 logcomment "Opener: Log Files .:. No Logs Found in $logId"
             fi
@@ -104,7 +104,7 @@ fi
 #
 ##  Collect Launcher/Opener Plists
         gtoPlistTempDir="$TempDir/Opener_Plists"
-        mkdir $gtoPlistTempDir
+        mkdir "$gtoPlistTempDir"
         gtoPlistIds=(com.citrixonline.mac.WebDeploymentApp.plist
                     com.citrixonline.WebDeployment.plist
                     com.logmein.WebDeployment.plist)
@@ -112,7 +112,7 @@ fi
             plistPath="$HOME/Library/Preferences/$plistId"
             if [[ -e "$plistPath" ]]; then
                 logcomment "Opener: Plist .:. $plistId"
-                defaults read $plistPath > $gtoPlistTempDir/$(echo "$plistId").txt
+                defaults read "$plistPath" > "$gtoPlistTempDir/$plistId.txt"
             else
                 logcomment "Opener: Plist .:. $plistId not found."
             fi
@@ -128,60 +128,87 @@ fi
 #   ////////   //////      //      //////  //      // //////  //////  // //////     //  
 #
 if [[ "$UserSelect" == "GoToAssist" ]]; then
-	# Collect GoToAssist Corporate logs
-	logcomment "GoToAssist Corporate: Logs"
-	rsync -av ~/Library/Logs/com.citrixonline.g2ac* $TempDir/G2AC_Endpoint_Logs/ >> $LogFile 2>&1
-	rsync -av ~/Library/Logs/com.citrixonline.g2a.customer $TempDir/G2AC_Customer_Logs/ >> $LogFile 2>&1
-	#
-	# Collect GoToAssist Remote Support Logs
-	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/customer ]; then 
-		logcomment "GoToAssist Remote Support: Logs"
-		rsync -av ~/Library/Logs/com.citrixonline.g2a.rs/customer $TempDir/G2ARS_Customer_Endpoint_Logs/ >> $LogFile 2>&1
-	fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2a.rs/Expert ]; then 
-		logcomment "GoToAssist Remote Support: Logs"
-		rsync -av ~/Library/Logs/com.citrixonline.g2a.rs/Expert $TempDir/G2ARS_Expert_Endpoint_Logs/ >> $LogFile 2>&1
-	fi
-	if [ -d /Library/Logs/com.citrixonline.g2a.rs ]; then 
-		logcomment "GoToAssist Remote Support: Logs"
-		rsync -av /Library/Logs/com.citrixonline.g2a.rs $TempDir/G2ARS_Unattended_Endpoint_Logs/ >> $LogFile 2>&1
-	fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2ax ]; then 
-		logcomment "GoToAssist Remote Support: Logs"
-		rsync -av ~/Library/Logs/com.citrixonline.g2ax $TempDir/G2ARS_Pre_Build_403_Logs/ >> $LogFile 2>&1
-	fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2ax.customer ]; then 
-		logcomment "GoToAssist Remote Support: Logs"
-		rsync -av ~/Library/Logs/com.citrixonline.g2ax.customer $TempDir/G2ARS_Customer_Pre_Build_403_Logs/ >> $LogFile 2>&1
-	fi
-	if [ -d ~/Library/Logs/com.citrixonline.g2ax.expert ]; then 
-		logcomment "GoToAssist Remote Support: Logs"
-		rsync -av ~/Library/Logs/com.citrixonline.g2ax.expert $TempDir/G2ARS_ExpertPre_Build_403_Logs/ >> $LogFile 2>&1
-	fi
-
-	# Copy GoToAssist Remote Support preferences to a text file.
-	if ls ~/Library/Preferences/com.citrixonline.g2ax* 1> /dev/null 2>&1 ; then
-		if [[ ! -e $TempDir/Plist ]]; then
-			mkdir $TempDir/Plist
-		fi
-		for FILE in ~/Library/Preferences/com.citrixonline.g2ax* ; do
-			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
-		done
-	else
-		logcomment "GoToAssist Remote Support Plist .:. No plist files found."
-	fi
-
-	# Copy GoToAssist Corporate preferences to a text file
-	if ls ~/Library/Preferences/com.citrixonline.g2ac* 1> /dev/null 2>&1 ; then
-		if [[ ! -e $TempDir/Plist ]]; then
-			mkdir $TempDir/Plist
-		fi
-		for FILE in ~/Library/Preferences/com.citrixonline.g2ac* ; do
-			defaults read $FILE > $TempDir/Plist/$(echo "$FILE" | awk -F \/ '{ print $NF }').txt
-		done
-	else
-		logcomment "GoToAssist Corporate Plist .:. No plist files found."
-	fi
+#
+# Collect GoToAssist Corporate logs
+    gtacLogsTempDir="$TempDir/GoToAssist_Corp_Logs"
+    gtacLogIds=(com.citrixonline.g2ac
+                com.citrixonline.g2a.customer
+                com.logmein.g2a.customer
+                com.logmein.g2ac)
+    for logId in "${gtacLogIds[@]}"; do
+        logPath="$HOME/Library/Logs/$logId"
+        if [[ -e "$logPath" ]]; then
+            mkdir $gtacLogsTempDir
+            logcomment "GoToAssist Corporate: Log Files .:. $logId"
+            rsync -av $logPath* $gtacLogsTempDir/$logId/ >> $LogFile 2>&1
+        else
+            logcomment "GoToAssist Corporate: Log Files .:. No Logs found in $logId"
+        fi
+    done
+#
+## Copy GoToAssist Corporate preferences to a text file
+    gtacPlistTempDir="$TempDir/GoToAssist_Corp_Plist"
+    gtacPlistIds=(com.citrixonline.g2ac
+                  com.citrixonline.g2a.customer
+                  com.logmein.g2ac
+                  com.logmein.g2a.customer)
+    for plistId in "${gtacPlistIds[@]}"; do
+        plistPath="$HOME/Library/Preferences/$plistId*.plist"
+        if [[ -e "$plistPath" ]]; then
+            mkdir "$gtacPlistTempDir"
+            logcomment "GoToAssist Corporate Plist .:. $plistId"
+            defaults read $plistPath > $gtacPlistTempDir/$(echo "$plistId").txt
+        else
+            logcomment "GoToAssist Corporate Plist .:. $plistId not found."
+        fi
+    done
+#
+## Collect GoToAssist Remote Support Logs
+    gtarsLogsTempDir="$TempDir/GoToAssist_RS_Logs"
+    gtarsLogIds=("com.citrixonline.g2a.rs"
+                 "com.citrixonline.g2ax"
+                 "com.citrixonline.g2ax.customer"
+                 "com.citrixonline.g2ax.expert"
+                 "com.citrixonline.GoToAssist Remote Support"
+                 "com.citrixonline.GoToAssist Remote Support.customer"
+                 "com.logmein.GoToAssist Remote Support"
+                 "com.logmein.GoToAssist Remote Support.customer"
+                 "com.logmein.g2a.rs"
+                 "com.logmein.g2ars")
+    for logId in "${gtarsLogIds[@]}"; do
+        logPath="$HOME/Library/Logs/$logId"
+        if [[ -e "$logPath" ]]; then
+            mkdir $gtarsLogsTempDir
+            logcomment "GoToAssist Remote Support: Log Files .:. $logId"
+            rsync -av $logPath* $gtarsLogsTempDir/$logId/ >> $LogFile 2>&1
+        else
+            logcomment "GoToAssist Remote Support: Log Files .:. No Logs found in $logId"
+        fi
+    done
+#
+## Copy GoToAssist Remote Support preferences to a text file.
+    ## Collect Plist Files
+    gtarsPlistTempDir="$TempDir/GoToAssist_RS_Plist"
+    gtarsPlistIds=("com.citrixonline.g2ax.customer"
+                   "com.citrixonline.g2ax.expert"
+                   "com.citrixonline.g2ax"
+                   "com.citrixonline.g2a.rs.plist"
+                   "com.citrixonline.g2ars.plist"
+                   "com.citrixonline.GoToAssist Remote Support"
+                   "com.logmein.g2a.rs"
+                   "com.logmein.g2ars"
+                   "com.logmein.GoToAssist Remote Support"
+                   "com.logmein.GoToAssist Remote Support.customer")
+    for plistId in "${gtarsPlistIds[@]}"; do
+        plistPath="$HOME/Library/Preferences/$plistId*.plist"
+        if [[ -e "$plistPath" ]]; then
+            mkdir "$gtarsPlistTempDir"
+            logcomment "GoToAssist Remote Support Plist .:. $plistId"
+            defaults read "$plistPath" > $gtarsPlistTempDir/$(echo "$plistId").txt
+        else
+            logcomment "GoToAssist Remote Support Plist .:. $plistId not found."
+        fi
+    done
 #
 #    @@@@@@@@           @@@@@@@@@@          @@@@     @@@@                   @@   @@                 
 #   @@//////@@         /////@@///          /@@/@@   @@/@@                  /@@  //            @@@@@ 

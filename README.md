@@ -1,5 +1,5 @@
 # GoToLogFiles for Automator
-## Version 1.3.0
+## Version 1.4.5
 Unofficial macOS log file collector for:
 * GoToMeeting/GoToWebinar/GoToTraining
 * GoToMyPC
@@ -10,6 +10,9 @@ Just need to download the tool? [Click Here](https://github.com/robotmachine/GoT
 Prefer a version that does not collect system information? [Click Here](https://github.com/robotmachine/GoToLogFiles/releases/download/latest/GoToLogFiles-NoSys-latest.zip)
 
 ## CHANGELOG
+
+### 13 July, 2017 (v 1.4.3):
+* Updated GoToAssist log paths
 
 ### 11 July, 2017 (v 1.4.3):
 * Updated GoToMeeting/Webinar/Training log paths to add LogMeIn name
