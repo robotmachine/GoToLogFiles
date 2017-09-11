@@ -9,7 +9,7 @@
 #  //@@@@@@@@ //@@@@@@     /@@    //@@@@@@ /@@@@@@@@//@@@@@@   @@@@@ /@@      /@@ @@@//@@@@@@ @@@@@@ 
 #   ////////   //////      //      //////  ////////  //////   /////  //       // ///  ////// //////  
 #
-# GoToLogFiles v.1.4.5
+# GoToLogFiles v.1.4.6
 #
 # Description:
 # Collects log files and diagnostic information for:
@@ -91,6 +91,7 @@ fi
         mkdir "$gtoLogTempDir"
         gtoLogIds=(com.citrixonline.mac.WebDeploymentApp
                   com.citrixonline.WebDeployment
+                  com.logmein.GoToOpener
                   com.logmein.WebDeployment)
         for logId in "${gtoLogIds[@]}"; do
             logPath="$HOME/Library/Logs/$logId"

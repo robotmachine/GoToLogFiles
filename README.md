@@ -11,6 +11,9 @@ Prefer a version that does not collect system information? [Click Here](https://
 
 ## CHANGELOG
 
+### 11 September, 2017 (v 1.4.6)
+* Updated GoToOpener path
+
 ### 13 July, 2017 (v 1.4.3):
 * Updated GoToAssist log paths
 
